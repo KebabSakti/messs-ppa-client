@@ -1,8 +1,8 @@
 class LocalRoute {
-  static employee = "/";
+  static root = "/";
   static guest = "/guest";
-  static root = "/app";
-  static home = `${this.root}/home`;
+  static app = "/app";
+  static home = `${this.app}/home`;
 }
 
 export { LocalRoute };

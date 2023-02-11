@@ -1,34 +1,39 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { LoginPage } from "./view/page/LoginPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthMock } from "./adapter/service/auth/auth_mock";
+import { LocalRoute } from "./common/config/local_route";
+import { AppInteractor } from "./domain/interactor/app_interactor";
+import { AuthInteractor } from "./domain/interactor/auth_interactor";
+import "./index.css";
+import { AppPage } from "./view/page/AppPage";
 import { GuestLoginPage } from "./view/page/GuestLoginPage";
 import { HomePage } from "./view/page/HomePage";
-import { ProfilePage } from "./view/page/ProfilePage";
-import { LayoutComponent } from "./view/component/LayoutComponent";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
-import { LocalRoute } from "./common/config/local_route";
+import { RootPage } from "./view/page/RootPage";
+
+const authService = new AuthMock();
+const appInteractor = new AppInteractor();
+const authInteractor = new AuthInteractor(authService, appInteractor);
 
 const router = createBrowserRouter([
   {
-    path: LocalRoute.employee,
-    element: <LoginPage />,
-  },
-  {
-    path: LocalRoute.guest,
-    element: <GuestLoginPage />,
-  },
-  {
     path: LocalRoute.root,
-    element: <LayoutComponent />,
+    element: <RootPage authInteractor={authInteractor} />,
     children: [
       {
-        path: LocalRoute.home,
-        element: <HomePage />,
+        path: LocalRoute.guest,
+        element: <GuestLoginPage authInteractor={authInteractor} />,
       },
       {
-        path: "profile",
-        element: <ProfilePage />,
+        path: LocalRoute.app,
+        element: <AppPage />,
+        children: [
+          {
+            path: LocalRoute.home,
+            element: <HomePage />,
+          },
+        ],
       },
     ],
   },

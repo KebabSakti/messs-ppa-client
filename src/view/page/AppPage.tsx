@@ -1,13 +1,12 @@
 import { Outlet } from "react-router";
 
-function LayoutComponent() {
+function AppPage() {
   return (
     <>
-      <div>NAVBAR</div>
+      <div>App Page</div>
       <Outlet />
     </>
   );
 }
 
-export { LayoutComponent };
-
+export { AppPage };

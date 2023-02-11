@@ -1,25 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthMock } from "../../adapter/service/auth/auth_mock";
+import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import { LocalRoute } from "../../common/config/local_route";
 import { AppModel } from "../../domain/entity/app_model";
 import { StateModel } from "../../domain/entity/state_model";
-import { AppInteractor } from "../../domain/interactor/app_interactor";
 import { AuthInteractor } from "../../domain/interactor/auth_interactor";
 import ButtonComponent from "../component/ButtonComponent";
-import { ToastComponent } from "../component/ToastComponent";
 
-const authService = new AuthMock();
-const appInteractor = new AppInteractor();
-const authInteractor = new AuthInteractor(authService, appInteractor);
-
-function LoginPage() {
+function LoginPage({ authInteractor }: { authInteractor: AuthInteractor }) {
   const navigate = useNavigate();
+  const [inputs, setInputs] = useState({ username: "", password: "" });
   const [results, setResults] = useState<StateModel<AppModel>>({
     loading: false,
   });
-  const [inputs, setInputs] = useState({ username: "", password: "" });
 
   async function authLogin() {
     try {
@@ -41,6 +35,10 @@ function LoginPage() {
         loading: false,
         error: error.message,
       });
+
+      toast.error(error.message, {
+        toastId: 1,
+      });
     }
   }
 
@@ -55,7 +53,12 @@ function LoginPage() {
 
   function loginOnPressed(): void {
     if (inputs.username.length == 0 || inputs.password.length == 0) {
-      alert("Username atau password tidak boleh kosong");
+      clearInputs();
+
+      toast.warn("NRP atau password tidak boleh kosong", {
+        toastId: 1,
+      });
+
       return;
     }
 
@@ -64,9 +67,6 @@ function LoginPage() {
 
   return (
     <div>
-      {results.error != null && (
-        <ToastComponent show={true} message={results.error!} />
-      )}
       <div
         className="flex flex-col h-screen justify-center 
 items-center px-6"
@@ -77,7 +77,7 @@ items-center px-6"
             Login Karyawan
           </p>
         </div>
-        <div className="flex flex-col items-center space-y-4 mb-6 w-full max-w-sm">
+        <div className="flex flex-col items-center space-y-4 mb-6 w-full md:max-w-sm">
           <input
             name="username"
             type="text"
