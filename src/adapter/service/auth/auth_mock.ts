@@ -7,7 +7,6 @@ class AuthMock implements AuthService {
 
     return await new Promise<string>((resolve) => {
       const results = "aaksdjaskd123kj123kjkasd";
-
       resolve(results);
     });
   }

@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthMock } from "../../adapter/service/auth/auth_mock";
 import logo from "../../assets/logo.png";
+import { LocalRoute } from "../../common/config/local_route";
 import { AppModel } from "../../domain/entity/app_model";
+import { StateModel } from "../../domain/entity/state_model";
 import { AppInteractor } from "../../domain/interactor/app_interactor";
 import { AuthInteractor } from "../../domain/interactor/auth_interactor";
 import ButtonComponent from "../component/ButtonComponent";
@@ -11,35 +14,51 @@ const authService = new AuthMock();
 const appInteractor = new AppInteractor();
 const authInteractor = new AuthInteractor(authService, appInteractor);
 
-interface StateModel<T> {
-  loading: boolean;
-  data?: T | null;
-  error?: string | null;
-}
-
 function LoginPage() {
+  const navigate = useNavigate();
   const [results, setResults] = useState<StateModel<AppModel>>({
     loading: false,
   });
+  const [inputs, setInputs] = useState({ username: "", password: "" });
 
   async function authLogin() {
-    setResults({
-      loading: true,
-    });
+    try {
+      setResults({
+        loading: true,
+      });
 
-    await authInteractor.login({ username: "", password: "" });
+      await authInteractor.login({
+        username: inputs.username,
+        password: inputs.password,
+        employee: true,
+      });
 
-    const conf = appInteractor.config();
+      navigate(LocalRoute.home);
+    } catch (error: any) {
+      clearInputs();
 
-    setResults({
-      loading: false,
-      data: conf,
-    });
+      setResults({
+        loading: false,
+        error: error.message,
+      });
+    }
+  }
 
-    alert(results.data?.auth);
+  function clearInputs() {
+    setInputs({ username: "", password: "" });
+  }
+
+  function fieldOnChange(event: any) {
+    const field = { ...inputs, [event.target.name]: event.target.value };
+    setInputs(field);
   }
 
   function loginOnPressed(): void {
+    if (inputs.username.length == 0 || inputs.password.length == 0) {
+      alert("Username atau password tidak boleh kosong");
+      return;
+    }
+
     authLogin();
   }
 
@@ -62,14 +81,20 @@ items-center px-6"
           <input
             name="username"
             type="text"
-            placeholder="Username"
+            placeholder="NRP"
             className="py-3 px-5 rounded-xl w-full bg-surfaceDarker text-onSurface focus:outline-none"
+            onChange={fieldOnChange}
+            value={inputs.username}
+            required
           />
           <input
             name="password"
             type="password"
             placeholder="Password"
             className="py-3 px-5 rounded-xl w-full bg-surfaceDarker text-onSurface outline-none focus:outline-none"
+            onChange={fieldOnChange}
+            value={inputs.password}
+            required
           />
           <ButtonComponent
             text="LOGIN"
@@ -79,10 +104,10 @@ items-center px-6"
           <p className="text-onBackground text-sm">Atau</p>
           <p className="text-onBackground">
             Klik di sini untuk masuk sebagai
-            <a href="/guest" className="text-primary font-bold">
+            <Link to="/guest" className="text-primary font-bold">
               {" "}
               tamu
-            </a>
+            </Link>
           </p>
         </div>
       </div>
