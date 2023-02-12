@@ -3,7 +3,7 @@ import React from "react";
 function StatusPage() {
   return (
     <>
-      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 space-x-2">
+      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4">
         <p className="text-onBackground text-xl font-semibold mx-auto">
           Status
         </p>

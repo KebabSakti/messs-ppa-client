@@ -9,7 +9,7 @@ function VoucherPage() {
         </p>
       </div>
       <div className="h-full overflow-auto">
-        <div className="mx-4 my-16 space-y-4 ">
+        <div className="mx-4 my-16 space-y-4">
           {[...Array(10)].map((x, i) => (
             <div
               key={i}
