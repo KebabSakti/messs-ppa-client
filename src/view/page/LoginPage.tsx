@@ -27,7 +27,7 @@ function LoginPage({ authInteractor }: { authInteractor: AuthInteractor }) {
         employee: true,
       });
 
-      navigate(LocalRoute.home);
+      navigate(LocalRoute.home, { replace: true });
     } catch (error: any) {
       clearInputs();
 
@@ -97,6 +97,7 @@ items-center px-6"
             required
           />
           <ButtonComponent
+            className="bg-primary py-3 font-semibold text-onPrimary w-full rounded-full"
             text="LOGIN"
             loading={results.loading}
             onClick={loginOnPressed}

@@ -64,6 +64,7 @@ function AppPage() {
               <Link
                 key={element.link}
                 to={element.link}
+                replace={true}
                 className="basis-1/4 flex flex-col items-center justify-center"
               >
                 <MenuIcon className={`text-${active} w-7`} />

@@ -1,19 +1,20 @@
-
 function ButtonComponent({
   onClick,
   text,
   loading = false,
+  className = "",
 }: {
   onClick: () => void;
   loading: boolean;
   text: string;
+  className: string;
 }) {
   return (
     <>
       <button
         onClick={onClick}
         disabled={loading}
-        className="bg-primary py-3 font-semibold text-onPrimary w-full rounded-full disabled:bg-background focus:bg-primaryDarker flex justify-center"
+        className={`disabled:bg-background focus:bg-primaryDarker ${className}`}
       >
         <p>{loading ? "LOADING" : text}</p>
       </button>

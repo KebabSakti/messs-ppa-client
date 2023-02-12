@@ -14,6 +14,7 @@ import { StatusPage } from "./view/page/StatusPage";
 import { RootPage } from "./view/page/RootPage";
 import { VoucherPage } from "./view/page/VoucherPage";
 import { UserPage } from "./view/page/UserPage";
+import { MessPage } from "./view/page/MessPage";
 
 const authService = new AuthMock();
 const appInteractor = new AppInteractor();
@@ -46,9 +47,13 @@ const router = createBrowserRouter([
           },
           {
             path: LocalRoute.user,
-            element: <UserPage />,
+            element: <UserPage authInteractor={authInteractor} />,
           },
         ],
+      },
+      {
+        path: `${LocalRoute.mess}/:id`,
+        element: <MessPage />,
       },
     ],
   },
