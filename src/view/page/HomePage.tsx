@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { LocalRoute } from "../../common/config/local_route";
 
 function HomePage() {
   return (
@@ -14,8 +16,9 @@ function HomePage() {
           </p>
           <div className="h-80 w-full overflow-auto no-scrollbar flex space-x-6 pr-5">
             {[...Array(10)].map((x, i) => (
-              <div
+              <Link
                 key={i}
+                to={`${LocalRoute.mess}/${i}`}
                 className="flex flex-col flex-none w-52 rounded-2xl bg-surface"
               >
                 <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
@@ -29,7 +32,7 @@ function HomePage() {
                   <p className="text-onBackground font-semibold">Asoka</p>
                   <p className="text-onBackground">Tersedia 3 Kamar</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

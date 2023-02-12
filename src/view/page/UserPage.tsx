@@ -17,11 +17,8 @@ function UserPage({ authInteractor }: { authInteractor: AuthInteractor }) {
 
   return (
     <>
-      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4">
-        <p className="text-onBackground text-xl font-semibold mx-auto">User</p>
-      </div>
       <div className="overflow-auto h-screen flex flex-col">
-        <div className="mx-4 my-16 bg-surface rounded-lg p-3 flex flex-col items-center justify-center flex-1">
+        <div className="bg-surface rounded-lg p-3 flex flex-col items-center justify-center flex-1">
           <UserCircleIcon className="w-20 text-onBackground mb-4" />
           <p className="text-onBackground text-lg font-semibold">Julian Aryo</p>
           <p className="text-onBackground text-lg font-semibold mb-6">
