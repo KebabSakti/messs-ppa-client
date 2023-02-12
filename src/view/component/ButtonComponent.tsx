@@ -1,4 +1,3 @@
-import { SpinnerComponent } from "../component/SpinnerComponent";
 
 function ButtonComponent({
   onClick,

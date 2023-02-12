@@ -10,7 +10,10 @@ import "./index.css";
 import { AppPage } from "./view/page/AppPage";
 import { GuestLoginPage } from "./view/page/GuestLoginPage";
 import { HomePage } from "./view/page/HomePage";
+import { StatusPage } from "./view/page/StatusPage";
 import { RootPage } from "./view/page/RootPage";
+import { VoucherPage } from "./view/page/VoucherPage";
+import { UserPage } from "./view/page/UserPage";
 
 const authService = new AuthMock();
 const appInteractor = new AppInteractor();
@@ -32,6 +35,18 @@ const router = createBrowserRouter([
           {
             path: LocalRoute.home,
             element: <HomePage />,
+          },
+          {
+            path: LocalRoute.status,
+            element: <StatusPage />,
+          },
+          {
+            path: LocalRoute.voucher,
+            element: <VoucherPage />,
+          },
+          {
+            path: LocalRoute.user,
+            element: <UserPage />,
           },
         ],
       },
