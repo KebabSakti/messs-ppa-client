@@ -11,7 +11,7 @@ class RoomLocal implements RoomRepository {
       mess: "Asoka",
       picture:
         "https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-      name: "Ruang No 01",
+      name: "Kamar No 01",
       available: true,
     },
     {
@@ -22,7 +22,7 @@ class RoomLocal implements RoomRepository {
       mess: "Mawar",
       picture:
         "https://images.unsplash.com/flagged/photo-1556438758-8d49568ce18e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
-      name: "Ruang No 01",
+      name: "Kamar No 01",
       available: true,
     },
     {
@@ -33,7 +33,7 @@ class RoomLocal implements RoomRepository {
       mess: "Mawar",
       picture:
         "https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
-      name: "Ruang No 02",
+      name: "Kamar No 02",
       available: false,
     },
     {
@@ -44,7 +44,7 @@ class RoomLocal implements RoomRepository {
       mess: "Mawar",
       picture:
         "https://images.unsplash.com/photo-1591088398332-8a7791972843?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
-      name: "Ruang No 03",
+      name: "Kamar No 03",
       available: true,
     },
     {
@@ -55,7 +55,7 @@ class RoomLocal implements RoomRepository {
       mess: "Mawar",
       picture:
         "https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
-      name: "Ruang No 04",
+      name: "Kamar No 04",
       available: true,
     },
     {
@@ -66,7 +66,7 @@ class RoomLocal implements RoomRepository {
       mess: "Mawar",
       picture:
         "https://images.unsplash.com/photo-1586105251261-72a756497a11?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=958&q=80",
-      name: "Ruang No 05",
+      name: "Kamar No 05",
       available: true,
     },
   ];

@@ -44,7 +44,7 @@ function StatusPage() {
               </div>
               <div className="flex items-center">
                 <p className="text-onBackground grow text-sm">Status</p>
-                <p className="text-onBackground text-xs font-bold border border-secondary text-secondary rounded-full px-2 py-1">
+                <p className="text-green-500 text-xs font-bold border border-green-500 rounded-full px-2 py-1">
                   Check-In
                 </p>
               </div>

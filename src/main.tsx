@@ -2,36 +2,40 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { LocationLocal } from "./adapter/repository/location/location_local";
+import { MessLocal } from "./adapter/repository/mess/mess_local";
+import { RoomLocal } from "./adapter/repository/room/room_local";
 import { AuthMock } from "./adapter/service/auth/auth_mock";
 import { LocalRoute } from "./common/config/local_route";
 import { AppInteractor } from "./domain/interactor/app_interactor";
 import { AuthInteractor } from "./domain/interactor/auth_interactor";
+import { LocationInteractor } from "./domain/interactor/location_interactor";
+import { MessInteractor } from "./domain/interactor/mess_interactor";
+import { RoomInteractor } from "./domain/interactor/room_interactor";
 import "./index.css";
 import { AppPage } from "./view/page/AppPage";
+import { BookingPage } from "./view/page/BookingPage";
 import { GuestLoginPage } from "./view/page/GuestLoginPage";
 import { HomePage } from "./view/page/HomePage";
-import { StatusPage } from "./view/page/StatusPage";
-import { RootPage } from "./view/page/RootPage";
-import { VoucherPage } from "./view/page/VoucherPage";
-import { UserPage } from "./view/page/UserPage";
-import { MessPage } from "./view/page/MessPage";
-import { MessLocal } from "./adapter/repository/mess/mess_local";
-import { MessInteractor } from "./domain/interactor/mess_interactor";
-import { RoomLocal } from "./adapter/repository/room/room_local";
-import { RoomInteractor } from "./domain/interactor/room_interactor";
 import { LocationPage } from "./view/page/LocationPage";
+import { MessPage } from "./view/page/MessPage";
 import { RoomPage } from "./view/page/RoomPage";
-import { BookingPage } from "./view/page/BookingPage";
+import { RootPage } from "./view/page/RootPage";
+import { StatusPage } from "./view/page/StatusPage";
+import { UserPage } from "./view/page/UserPage";
 import { VcsPage } from "./view/page/VcsPage";
+import { VoucherPage } from "./view/page/VoucherPage";
 
 const authService = new AuthMock();
 const messRepository = new MessLocal();
 const roomRepository = new RoomLocal();
+const locationRepository = new LocationLocal();
 
 const appInteractor = new AppInteractor();
 const authInteractor = new AuthInteractor(authService, appInteractor);
 const messIntractor = new MessInteractor(messRepository);
 const roomInteractor = new RoomInteractor(roomRepository);
+const locationInteractor = new LocationInteractor(locationRepository);
 
 const authPageDepencies = {
   authInteractor: authInteractor,
@@ -44,6 +48,12 @@ const homePageDepencies = {
 
 const messPageDepencies = {
   messInteractor: messIntractor,
+  roomInteractor: roomInteractor,
+  locationInteractor: locationInteractor,
+};
+
+const locationPageDepencies = {
+  locationInteractor: locationInteractor,
   roomInteractor: roomInteractor,
 };
 
@@ -84,7 +94,7 @@ const router = createBrowserRouter([
       },
       {
         path: `${LocalRoute.location}/:id`,
-        element: <LocationPage {...messPageDepencies} />,
+        element: <LocationPage {...locationPageDepencies} />,
       },
       {
         path: `${LocalRoute.room}/:id`,

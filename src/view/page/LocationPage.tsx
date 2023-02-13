@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { LocalRoute } from "../../common/config/local_route";
+import { LocationModel } from "../../domain/entity/location_model";
 import { MessModel } from "../../domain/entity/mess_model";
 import { RoomModel } from "../../domain/entity/room_model";
 import { StateModel } from "../../domain/entity/state_model";
+import { LocationInteractor } from "../../domain/interactor/location_interactor";
 import { MessInteractor } from "../../domain/interactor/mess_interactor";
 import { RoomInteractor } from "../../domain/interactor/room_interactor";
 import { BackButton } from "../component/BackButton";
+import { RoomCard, RoomCardShimmer } from "../component/RoomCard";
 
 function LocationPage(props: {
-  messInteractor: MessInteractor;
+  locationInteractor: LocationInteractor;
   roomInteractor: RoomInteractor;
 }) {
   const { id } = useParams();
-  const [messData, setMessData] = useState<StateModel<MessModel[]>>({
+  const navigate = useNavigate();
+
+  const [locationData, setLocationData] = useState<StateModel<LocationModel>>({
     loading: true,
-    data: [],
+    data: null,
   });
 
   const [roomData, setRoomData] = useState<StateModel<RoomModel[]>>({
@@ -25,16 +29,16 @@ function LocationPage(props: {
     data: [],
   });
 
-  async function getMessData() {
+  async function getLocationData() {
     try {
-      const results = await props.messInteractor.collections();
+      const results = await props.locationInteractor.single({ id: id });
 
-      setMessData({
+      setLocationData({
         loading: false,
         data: results,
       });
     } catch (error: any) {
-      setMessData({
+      setLocationData({
         loading: false,
         error: error.message,
       });
@@ -65,8 +69,12 @@ function LocationPage(props: {
     }
   }
 
+  function roomOnClick(id: string): void {
+    navigate(`${LocalRoute.room}/${id}`);
+  }
+
   async function init() {
-    getMessData();
+    getLocationData();
     getRoomData();
   }
 
@@ -80,13 +88,15 @@ function LocationPage(props: {
         <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 items-center z-10">
           <BackButton />
           <p className="text-onBackground text-xl font-semibold mx-auto">
-            Asoka - Lantai 1
+            {locationData.loading
+              ? "Loading.."
+              : `${locationData.data?.mess} - ${locationData.data?.name}`}
           </p>
         </div>
         <div className="h-full overflow-auto pt-16 pb-4 px-4 space-y-4">
           <div>
             <p className="text-lg text-onBackground font-semibold mb-2">
-              Denah Lantai 1
+              Denah {locationData.loading ? "" : `${locationData.data?.name}`}
             </p>
             <img
               src="http://2.bp.blogspot.com/-Hc_WroB0OB8/VqI6A5hmDMI/AAAAAAAAIiI/etP_Y8dYkLA/s1600/denahsituasi.jpg"
@@ -98,34 +108,15 @@ function LocationPage(props: {
             <p className="text-lg text-onBackground font-semibold mb-2">
               Daftar Kamar
             </p>
-            <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-10 gap-4">
               {roomData.loading
-                ? [...Array(6)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="flex flex-col rounded-2xl bg-onSurfaceDarker h-60 animate-pulse"
-                    />
-                  ))
+                ? [...Array(6)].map((_, i) => <RoomCardShimmer key={i} />)
                 : roomData.data!.map((e) => (
-                    <Link
+                    <RoomCard
                       key={e.id}
-                      to={`${LocalRoute.room}/${e.id}`}
-                      className="flex flex-col rounded-2xl bg-surface h-60"
-                    >
-                      <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
-                        <img
-                          src={e.picture}
-                          alt={e.name}
-                          className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
-                        />
-                      </div>
-                      <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center">
-                        <p className="text-onBackground text-sm font-semibold">
-                          {e.mess}
-                        </p>
-                        <p className="text-onBackground text-sm">{e.name}</p>
-                      </div>
-                    </Link>
+                      model={e}
+                      onClick={() => roomOnClick(e.id!)}
+                    />
                   ))}
             </div>
           </div>

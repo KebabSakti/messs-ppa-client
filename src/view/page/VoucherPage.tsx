@@ -29,7 +29,7 @@ function VoucherPage() {
                     makan gratis
                   </p>
                 </div>
-                <p className="text-green-500 text-xs font-bold border border-green-500 text-secondary rounded-full px-2 py-1">
+                <p className="text-green-500 text-xs font-bold border border-green-500 rounded-full px-2 py-1">
                   AKTIF
                 </p>
               </div>

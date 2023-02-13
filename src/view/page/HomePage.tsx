@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import { LocalRoute } from "../../common/config/local_route";
@@ -8,11 +8,15 @@ import { RoomModel } from "../../domain/entity/room_model";
 import { StateModel } from "../../domain/entity/state_model";
 import { MessInteractor } from "../../domain/interactor/mess_interactor";
 import { RoomInteractor } from "../../domain/interactor/room_interactor";
+import { MessCard, MessCardShimmer } from "../component/MessCard";
+import { RoomCard, RoomCardShimmer } from "../component/RoomCard";
 
 function HomePage(props: {
   messInteractor: MessInteractor;
   roomInteractor: RoomInteractor;
 }) {
+  const navigate = useNavigate();
+
   const [messData, setMessData] = useState<StateModel<MessModel[]>>({
     loading: true,
     data: [],
@@ -63,6 +67,14 @@ function HomePage(props: {
     }
   }
 
+  function messOnClick(id: string): void {
+    navigate(`${LocalRoute.mess}/${id}`);
+  }
+
+  function roomOnClick(id: string): void {
+    navigate(`${LocalRoute.room}/${id}`);
+  }
+
   async function init() {
     getMessData();
     getRoomData();
@@ -85,40 +97,13 @@ function HomePage(props: {
           </p>
           <div className="h-80 w-full overflow-auto no-scrollbar flex space-x-6 pr-5">
             {messData.loading
-              ? [...Array(3)].map((e, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col flex-none w-52 rounded-2xl bg-onSurfaceDarker animate-pulse"
-                  />
-                ))
+              ? [...Array(3)].map((_, i) => <MessCardShimmer key={i} />)
               : messData.data!.map((e) => (
-                  <Link
+                  <MessCard
                     key={e.id}
-                    to={`${LocalRoute.mess}/${e.id}`}
-                    className="flex flex-col flex-none w-52 rounded-2xl bg-surface"
-                  >
-                    <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
-                      <img
-                        src={e.picture}
-                        alt="mess"
-                        className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
-                      />
-                    </div>
-                    <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center space-y-2">
-                      <p className="text-onBackground font-semibold">
-                        {e.name}
-                      </p>
-                      {e.full ? (
-                        <p className="text-onBackground text-xs font-bold border border-red-500 text-red-500 rounded-full px-2 py-1">
-                          PENUH
-                        </p>
-                      ) : (
-                        <p className="text-onBackground text-xs font-bold border border-green-500 text-green-500 rounded-full px-2 py-1">
-                          TERSEDIA
-                        </p>
-                      )}
-                    </div>
-                  </Link>
+                    model={e}
+                    onClick={() => messOnClick(e.id!)}
+                  />
                 ))}
           </div>
         </div>
@@ -126,34 +111,15 @@ function HomePage(props: {
           <p className="text-lg text-onBackground font-semibold mb-2">
             Kamar Tersedia
           </p>
-          <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-10 gap-4">
             {roomData.loading
-              ? [...Array(6)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col rounded-2xl bg-onSurfaceDarker h-60 animate-pulse"
-                  />
-                ))
+              ? [...Array(6)].map((_, i) => <RoomCardShimmer key={i} />)
               : roomData.data!.map((e) => (
-                  <Link
+                  <RoomCard
                     key={e.id}
-                    to={`${LocalRoute.room}/${e.id}`}
-                    className="flex flex-col rounded-2xl bg-surface h-60"
-                  >
-                    <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
-                      <img
-                        src={e.picture}
-                        alt={e.name}
-                        className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
-                      />
-                    </div>
-                    <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center">
-                      <p className="text-onBackground text-sm font-semibold">
-                        {e.mess}
-                      </p>
-                      <p className="text-onBackground text-sm">{e.name}</p>
-                    </div>
-                  </Link>
+                    model={e}
+                    onClick={() => roomOnClick(e.id!)}
+                  />
                 ))}
           </div>
         </div>

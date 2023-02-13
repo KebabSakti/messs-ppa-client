@@ -25,7 +25,7 @@ function VcsPage() {
               </p>
               <img src={barcode} alt="barcode" className="w-full h-40" />
             </div>
-            <p className="text-green-500 text-2xl font-bold border-4 border-green-500 text-secondary rounded-full px-6 py-2 animate-pulse">
+            <p className="text-green-500 text-2xl font-bold border-4 border-green-500 rounded-full px-6 py-2 animate-pulse">
               VOUCHER AKTIF
             </p>
             <p className="text-onSurfaceDarker text-xs font-semibold text-right">
