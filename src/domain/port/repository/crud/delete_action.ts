@@ -1,5 +1,5 @@
 abstract class DeleteAction<T> {
-  abstract delete(): Promise<T>;
+  abstract delete(id: string): Promise<T>;
 }
 
 export { DeleteAction };

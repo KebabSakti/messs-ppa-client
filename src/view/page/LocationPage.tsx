@@ -1,4 +1,3 @@
-import { SparklesIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -11,7 +10,7 @@ import { MessInteractor } from "../../domain/interactor/mess_interactor";
 import { RoomInteractor } from "../../domain/interactor/room_interactor";
 import { BackButton } from "../component/BackButton";
 
-function MessPage(props: {
+function LocationPage(props: {
   messInteractor: MessInteractor;
   roomInteractor: RoomInteractor;
 }) {
@@ -81,13 +80,13 @@ function MessPage(props: {
         <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 items-center z-10">
           <BackButton />
           <p className="text-onBackground text-xl font-semibold mx-auto">
-            Asoka {id}
+            Asoka - Lantai 1
           </p>
         </div>
         <div className="h-full overflow-auto pt-16 pb-4 px-4 space-y-4">
           <div>
             <p className="text-lg text-onBackground font-semibold mb-2">
-              Denah Mess
+              Denah Lantai 1
             </p>
             <img
               src="http://2.bp.blogspot.com/-Hc_WroB0OB8/VqI6A5hmDMI/AAAAAAAAIiI/etP_Y8dYkLA/s1600/denahsituasi.jpg"
@@ -95,26 +94,6 @@ function MessPage(props: {
               className="w-full max-h-60 object-cover rounded-2xl"
             />
           </div>
-          <Link
-            to={`${LocalRoute.location}/1`}
-            className="p-2 h-14 bg-surface rounded-xl flex items-center space-x-2"
-          >
-            <SparklesIcon className="w-6 text-secondary" />
-            <p className="text-onBackground font-semibold flex-1">Lantai 1</p>
-            <p className="text-xs font-bold border border-green-500 text-green-500 rounded-full px-2 py-1">
-              TERSEDIA
-            </p>
-          </Link>
-          <Link
-            to={`${LocalRoute.location}/2`}
-            className="p-2 h-14 bg-surface rounded-xl flex items-center space-x-2"
-          >
-            <SparklesIcon className="w-6 text-secondary" />
-            <p className="text-onBackground font-semibold flex-1">Lantai 2</p>
-            <p className="text-xs font-bold border border-red-500 text-red-500 rounded-full px-2 py-1">
-              PENUH
-            </p>
-          </Link>
           <div>
             <p className="text-lg text-onBackground font-semibold mb-2">
               Daftar Kamar
@@ -156,4 +135,4 @@ function MessPage(props: {
   );
 }
 
-export { MessPage };
+export { LocationPage };

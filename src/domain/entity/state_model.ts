@@ -4,4 +4,4 @@ interface StateModel<T> {
   error?: string | null;
 }
 
-export { StateModel };
+export type { StateModel };

@@ -1,6 +1,6 @@
 import { MessModel } from "../../entity/mess_model";
-import { Reader } from "./crud/reader";
+import { ReadRepository } from "./crud/read_repository";
 
-abstract class MessRepository extends Reader<MessModel> {}
+abstract class MessRepository extends ReadRepository<MessModel> {}
 
 export { MessRepository };

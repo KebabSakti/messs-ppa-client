@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { LocalRoute } from "../../common/config/local_route";
 
 function StatusPage() {
   return (
@@ -11,8 +13,9 @@ function StatusPage() {
       <div className="h-full overflow-auto">
         <div className="mx-4 my-16 space-y-4">
           {[...Array(10)].map((x, i) => (
-            <div
+            <Link
               key={i}
+              to={`${LocalRoute.book}/1`}
               className="rounded-lg bg-surface p-3 flex flex-col space-y-2"
             >
               <div className="flex items-center">
@@ -35,7 +38,9 @@ function StatusPage() {
               </div>
               <div className="flex items-center">
                 <p className="text-onBackground grow text-sm">Catatan</p>
-                <p className="text-onBackground text-sm font-semibold">Over Shift</p>
+                <p className="text-onBackground text-sm font-semibold">
+                  Over Shift
+                </p>
               </div>
               <div className="flex items-center">
                 <p className="text-onBackground grow text-sm">Status</p>
@@ -43,7 +48,7 @@ function StatusPage() {
                   Check-In
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

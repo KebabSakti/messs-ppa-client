@@ -1,11 +1,80 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import { LocalRoute } from "../../common/config/local_route";
+import { MessModel } from "../../domain/entity/mess_model";
+import { RoomModel } from "../../domain/entity/room_model";
+import { StateModel } from "../../domain/entity/state_model";
+import { MessInteractor } from "../../domain/interactor/mess_interactor";
+import { RoomInteractor } from "../../domain/interactor/room_interactor";
 
-function HomePage() {
+function HomePage(props: {
+  messInteractor: MessInteractor;
+  roomInteractor: RoomInteractor;
+}) {
+  const [messData, setMessData] = useState<StateModel<MessModel[]>>({
+    loading: true,
+    data: [],
+  });
+
+  const [roomData, setRoomData] = useState<StateModel<RoomModel[]>>({
+    loading: true,
+    data: [],
+  });
+
+  async function getMessData() {
+    try {
+      const results = await props.messInteractor.collections();
+
+      setMessData({
+        loading: false,
+        data: results,
+      });
+    } catch (error: any) {
+      setMessData({
+        loading: false,
+        error: error.message,
+      });
+
+      toast.error(error.message, {
+        toastId: 1,
+      });
+    }
+  }
+
+  async function getRoomData() {
+    try {
+      const results = await props.roomInteractor.collections();
+
+      setRoomData({
+        loading: false,
+        data: results,
+      });
+    } catch (error: any) {
+      setRoomData({
+        loading: false,
+        error: error.message,
+      });
+
+      toast.error(error.message, {
+        toastId: 1,
+      });
+    }
+  }
+
+  async function init() {
+    getMessData();
+    getRoomData();
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <>
-      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 space-x-2">
+      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 space-x-2 z-10">
         <img src={logo} alt="logo" className="w-10" />
         <p className="text-primary font-bold text-lg">MESS AMM-ABP</p>
       </div>
@@ -15,25 +84,42 @@ function HomePage() {
             Daftar Mess
           </p>
           <div className="h-80 w-full overflow-auto no-scrollbar flex space-x-6 pr-5">
-            {[...Array(10)].map((x, i) => (
-              <Link
-                key={i}
-                to={`${LocalRoute.mess}/${i}`}
-                className="flex flex-col flex-none w-52 rounded-2xl bg-surface"
-              >
-                <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aG90ZWwlMjByb29tfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=2000&q=60"
-                    alt="room"
-                    className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
+            {messData.loading
+              ? [...Array(3)].map((e, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col flex-none w-52 rounded-2xl bg-onSurfaceDarker animate-pulse"
                   />
-                </div>
-                <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center">
-                  <p className="text-onBackground font-semibold">Asoka</p>
-                  <p className="text-onBackground">Tersedia 3 Kamar</p>
-                </div>
-              </Link>
-            ))}
+                ))
+              : messData.data!.map((e) => (
+                  <Link
+                    key={e.id}
+                    to={`${LocalRoute.mess}/${e.id}`}
+                    className="flex flex-col flex-none w-52 rounded-2xl bg-surface"
+                  >
+                    <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
+                      <img
+                        src={e.picture}
+                        alt="mess"
+                        className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
+                      />
+                    </div>
+                    <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center space-y-2">
+                      <p className="text-onBackground font-semibold">
+                        {e.name}
+                      </p>
+                      {e.full ? (
+                        <p className="text-onBackground text-xs font-bold border border-red-500 text-red-500 rounded-full px-2 py-1">
+                          PENUH
+                        </p>
+                      ) : (
+                        <p className="text-onBackground text-xs font-bold border border-green-500 text-green-500 rounded-full px-2 py-1">
+                          TERSEDIA
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                ))}
           </div>
         </div>
         <div className="mx-4">
@@ -41,26 +127,34 @@ function HomePage() {
             Kamar Tersedia
           </p>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {[...Array(10)].map((x, i) => (
-              <div
-                key={i}
-                className="flex flex-col rounded-2xl bg-surface h-60"
-              >
-                <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
-                  <img
-                    src="https://lh3.googleusercontent.com/yjDoBdvT5hee7GpGXk5fSi43sU0E_4_f2YeopUW99NJODjcMWAHbDWhkLO6KvjwTXvjQwlyRR0gQx2w2CnGfyohY8ETkGVzVwo-O5ti6uk8gaHecDEMA4w4yyiCAHepf29ZGXE8M"
-                    alt="room"
-                    className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
+            {roomData.loading
+              ? [...Array(6)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col rounded-2xl bg-onSurfaceDarker h-60 animate-pulse"
                   />
-                </div>
-                <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center">
-                  <p className="text-onBackground text-sm font-semibold">
-                    Asoka
-                  </p>
-                  <p className="text-onBackground text-sm">Nomor : 01</p>
-                </div>
-              </div>
-            ))}
+                ))
+              : roomData.data!.map((e) => (
+                  <Link
+                    key={e.id}
+                    to={`${LocalRoute.room}/${e.id}`}
+                    className="flex flex-col rounded-2xl bg-surface h-60"
+                  >
+                    <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
+                      <img
+                        src={e.picture}
+                        alt={e.name}
+                        className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
+                      />
+                    </div>
+                    <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center">
+                      <p className="text-onBackground text-sm font-semibold">
+                        {e.mess}
+                      </p>
+                      <p className="text-onBackground text-sm">{e.name}</p>
+                    </div>
+                  </Link>
+                ))}
           </div>
         </div>
       </div>

@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import food from "../../assets/tteok.svg";
+import { LocalRoute } from "../../common/config/local_route";
 
 function VoucherPage() {
   return (
@@ -11,8 +13,9 @@ function VoucherPage() {
       <div className="h-full overflow-auto">
         <div className="mx-4 my-16 space-y-4">
           {[...Array(10)].map((x, i) => (
-            <div
+            <Link
               key={i}
+              to={`${LocalRoute.vcs}/1`}
               className="rounded-lg bg-surface p-3 flex flex-col space-y-3"
             >
               <div className="flex space-x-4 items-center">
@@ -26,14 +29,14 @@ function VoucherPage() {
                     makan gratis
                   </p>
                 </div>
-                <p className="text-onBackground text-xs font-bold border border-secondary text-secondary rounded-full px-2 py-1">
+                <p className="text-green-500 text-xs font-bold border border-green-500 text-secondary rounded-full px-2 py-1">
                   AKTIF
                 </p>
               </div>
               <p className="text-onSurfaceDarker text-xs text-right">
                 Expired 13 Des 23
               </p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,5 +1,5 @@
 abstract class SingleResult<T> {
-  abstract single(): Promise<T>;
+  abstract single(option?: { [key: string]: any }): Promise<T>;
 }
 
 export { SingleResult };

@@ -15,19 +15,46 @@ import { RootPage } from "./view/page/RootPage";
 import { VoucherPage } from "./view/page/VoucherPage";
 import { UserPage } from "./view/page/UserPage";
 import { MessPage } from "./view/page/MessPage";
+import { MessLocal } from "./adapter/repository/mess/mess_local";
+import { MessInteractor } from "./domain/interactor/mess_interactor";
+import { RoomLocal } from "./adapter/repository/room/room_local";
+import { RoomInteractor } from "./domain/interactor/room_interactor";
+import { LocationPage } from "./view/page/LocationPage";
+import { RoomPage } from "./view/page/RoomPage";
+import { BookingPage } from "./view/page/BookingPage";
+import { VcsPage } from "./view/page/VcsPage";
 
 const authService = new AuthMock();
+const messRepository = new MessLocal();
+const roomRepository = new RoomLocal();
+
 const appInteractor = new AppInteractor();
 const authInteractor = new AuthInteractor(authService, appInteractor);
+const messIntractor = new MessInteractor(messRepository);
+const roomInteractor = new RoomInteractor(roomRepository);
+
+const authPageDepencies = {
+  authInteractor: authInteractor,
+};
+
+const homePageDepencies = {
+  messInteractor: messIntractor,
+  roomInteractor: roomInteractor,
+};
+
+const messPageDepencies = {
+  messInteractor: messIntractor,
+  roomInteractor: roomInteractor,
+};
 
 const router = createBrowserRouter([
   {
     path: LocalRoute.root,
-    element: <RootPage authInteractor={authInteractor} />,
+    element: <RootPage {...authPageDepencies} />,
     children: [
       {
         path: LocalRoute.guest,
-        element: <GuestLoginPage authInteractor={authInteractor} />,
+        element: <GuestLoginPage {...authPageDepencies} />,
       },
       {
         path: LocalRoute.app,
@@ -35,7 +62,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: LocalRoute.home,
-            element: <HomePage />,
+            element: <HomePage {...homePageDepencies} />,
           },
           {
             path: LocalRoute.status,
@@ -53,7 +80,23 @@ const router = createBrowserRouter([
       },
       {
         path: `${LocalRoute.mess}/:id`,
-        element: <MessPage />,
+        element: <MessPage {...messPageDepencies} />,
+      },
+      {
+        path: `${LocalRoute.location}/:id`,
+        element: <LocationPage {...messPageDepencies} />,
+      },
+      {
+        path: `${LocalRoute.room}/:id`,
+        element: <RoomPage />,
+      },
+      {
+        path: `${LocalRoute.book}/:id`,
+        element: <BookingPage />,
+      },
+      {
+        path: `${LocalRoute.vcs}/:id`,
+        element: <VcsPage />,
       },
     ],
   },

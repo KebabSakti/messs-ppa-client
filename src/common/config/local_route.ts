@@ -7,6 +7,10 @@ class LocalRoute {
   static voucher = `${this.app}/voucher`;
   static user = `${this.app}/user`;
   static mess = `${this.app}/mess`;
+  static location = `${this.app}/location`;
+  static room = `${this.app}/room`;
+  static book = `${this.app}/book`;
+  static vcs = `${this.app}/vcs`;
 }
 
 export { LocalRoute };

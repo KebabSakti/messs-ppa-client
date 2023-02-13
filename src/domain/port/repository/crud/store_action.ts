@@ -1,5 +1,5 @@
 abstract class StoreAction<T> {
-  abstract store(): Promise<T>;
+  abstract store(option: T): Promise<T>;
 }
 
 export { StoreAction };
