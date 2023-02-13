@@ -23,7 +23,7 @@ function HomePage() {
               >
                 <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
                   <img
-                    src="https://lh3.googleusercontent.com/yjDoBdvT5hee7GpGXk5fSi43sU0E_4_f2YeopUW99NJODjcMWAHbDWhkLO6KvjwTXvjQwlyRR0gQx2w2CnGfyohY8ETkGVzVwo-O5ti6uk8gaHecDEMA4w4yyiCAHepf29ZGXE8M"
+                    src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aG90ZWwlMjByb29tfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=2000&q=60"
                     alt="room"
                     className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
                   />
