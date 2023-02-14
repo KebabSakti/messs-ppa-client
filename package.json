@@ -1,5 +1,6 @@
 {
   "name": "mess-ppa-client",
+  "homepage": "https://amm-cottage.com",
   "private": true,
   "version": "0.0.1",
   "type": "module",

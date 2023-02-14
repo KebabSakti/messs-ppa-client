@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { BookingLocal } from "./adapter/repository/booking/booking_local";
 import { LocationLocal } from "./adapter/repository/location/location_local";
 import { MessLocal } from "./adapter/repository/mess/mess_local";
 import { RoomLocal } from "./adapter/repository/room/room_local";
@@ -9,6 +10,7 @@ import { AuthMock } from "./adapter/service/auth/auth_mock";
 import { LocalRoute } from "./common/config/local_route";
 import { AppInteractor } from "./domain/interactor/app_interactor";
 import { AuthInteractor } from "./domain/interactor/auth_interactor";
+import { BookingInteractor } from "./domain/interactor/booking_interactor";
 import { LocationInteractor } from "./domain/interactor/location_interactor";
 import { MessInteractor } from "./domain/interactor/mess_interactor";
 import { RoomInteractor } from "./domain/interactor/room_interactor";
@@ -30,41 +32,51 @@ const authService = new AuthMock();
 const messRepository = new MessLocal();
 const roomRepository = new RoomLocal();
 const locationRepository = new LocationLocal();
+const bookingRepository = new BookingLocal();
 
 const appInteractor = new AppInteractor();
 const authInteractor = new AuthInteractor(authService, appInteractor);
 const messIntractor = new MessInteractor(messRepository);
 const roomInteractor = new RoomInteractor(roomRepository);
 const locationInteractor = new LocationInteractor(locationRepository);
+const bookingInteractor = new BookingInteractor(bookingRepository);
 
-const authPageDepencies = {
+const authPageDependencies = {
   authInteractor: authInteractor,
 };
 
-const homePageDepencies = {
+const homePageDependencies = {
   messInteractor: messIntractor,
   roomInteractor: roomInteractor,
 };
 
-const messPageDepencies = {
+const messPageDependencies = {
   messInteractor: messIntractor,
   roomInteractor: roomInteractor,
   locationInteractor: locationInteractor,
 };
 
-const locationPageDepencies = {
+const locationPageDependencies = {
   locationInteractor: locationInteractor,
   roomInteractor: roomInteractor,
+};
+
+const roomPageDependencies = {
+  roomInteractor: roomInteractor,
+};
+
+const bookingPageDependencies = {
+  bookingInteractor: bookingInteractor,
 };
 
 const router = createBrowserRouter([
   {
     path: LocalRoute.root,
-    element: <RootPage {...authPageDepencies} />,
+    element: <RootPage {...authPageDependencies} />,
     children: [
       {
         path: LocalRoute.guest,
-        element: <GuestLoginPage {...authPageDepencies} />,
+        element: <GuestLoginPage {...authPageDependencies} />,
       },
       {
         path: LocalRoute.app,
@@ -72,11 +84,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: LocalRoute.home,
-            element: <HomePage {...homePageDepencies} />,
+            element: <HomePage {...homePageDependencies} />,
           },
           {
             path: LocalRoute.status,
-            element: <StatusPage />,
+            element: <StatusPage {...bookingPageDependencies} />,
           },
           {
             path: LocalRoute.voucher,
@@ -90,19 +102,19 @@ const router = createBrowserRouter([
       },
       {
         path: `${LocalRoute.mess}/:id`,
-        element: <MessPage {...messPageDepencies} />,
+        element: <MessPage {...messPageDependencies} />,
       },
       {
         path: `${LocalRoute.location}/:id`,
-        element: <LocationPage {...locationPageDepencies} />,
+        element: <LocationPage {...locationPageDependencies} />,
       },
       {
         path: `${LocalRoute.room}/:id`,
-        element: <RoomPage />,
+        element: <RoomPage {...roomPageDependencies} />,
       },
       {
         path: `${LocalRoute.book}/:id`,
-        element: <BookingPage />,
+        element: <BookingPage {...bookingPageDependencies} />,
       },
       {
         path: `${LocalRoute.vcs}/:id`,

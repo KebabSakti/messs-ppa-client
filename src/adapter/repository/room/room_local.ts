@@ -77,7 +77,7 @@ class RoomLocal implements RoomRepository {
     await new Promise<void>((resolve) => setTimeout(resolve, 1000));
 
     return await new Promise<RoomModel>((resolve, reject) => {
-      const results = this.datas.find((e) => e === option!["id"]);
+      const results = this.datas.find((e) => e.id == option!["id"]);
 
       if (results != undefined) {
         resolve(results);

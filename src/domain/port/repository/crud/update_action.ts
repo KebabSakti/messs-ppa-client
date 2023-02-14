@@ -1,5 +1,5 @@
-abstract class UpdateAction<T> {
-  abstract update(id: string, option: T): Promise<T>;
+abstract class UpdateAction {
+  abstract update(id: string, option: { [key: string]: any }): Promise<void>;
 }
 
 export { UpdateAction };

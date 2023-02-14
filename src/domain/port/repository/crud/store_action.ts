@@ -1,5 +1,5 @@
-abstract class StoreAction<T> {
-  abstract store(option: T): Promise<T>;
+abstract class StoreAction {
+  abstract store(option: { [key: string]: any }): Promise<void>;
 }
 
 export { StoreAction };

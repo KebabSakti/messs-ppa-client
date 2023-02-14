@@ -5,7 +5,7 @@ import { LocalRoute } from "../../common/config/local_route";
 function VoucherPage() {
   return (
     <>
-      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4">
+      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 z-10">
         <p className="text-onBackground text-xl font-semibold mx-auto">
           Voucher
         </p>

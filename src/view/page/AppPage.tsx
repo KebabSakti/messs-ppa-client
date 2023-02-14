@@ -19,7 +19,7 @@ function AppPage() {
       active: false,
     },
     {
-      name: "Status",
+      name: "Booking",
       link: LocalRoute.status,
       icon: ClipboardDocumentListIcon,
       active: false,

@@ -32,9 +32,4 @@ module.exports = {
     },
   },
   plugins: [],
-  safelist: [{
-    pattern: /(bg|text|border)-s2cond(Purple|Pink|Orange|Yellow|Lime|Mint|Test|Test2)/
-}
-
-]
 };

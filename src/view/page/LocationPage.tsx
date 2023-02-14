@@ -3,13 +3,12 @@ import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { LocalRoute } from "../../common/config/local_route";
 import { LocationModel } from "../../domain/entity/location_model";
-import { MessModel } from "../../domain/entity/mess_model";
 import { RoomModel } from "../../domain/entity/room_model";
 import { StateModel } from "../../domain/entity/state_model";
 import { LocationInteractor } from "../../domain/interactor/location_interactor";
-import { MessInteractor } from "../../domain/interactor/mess_interactor";
 import { RoomInteractor } from "../../domain/interactor/room_interactor";
 import { BackButton } from "../component/BackButton";
+import { MapCard, MapCardShimmer } from "../component/MapCard";
 import { RoomCard, RoomCardShimmer } from "../component/RoomCard";
 
 function LocationPage(props: {
@@ -73,6 +72,8 @@ function LocationPage(props: {
     navigate(`${LocalRoute.room}/${id}`);
   }
 
+  function mapOnClick() {}
+
   async function init() {
     getLocationData();
     getRoomData();
@@ -98,11 +99,15 @@ function LocationPage(props: {
             <p className="text-lg text-onBackground font-semibold mb-2">
               Denah {locationData.loading ? "" : `${locationData.data?.name}`}
             </p>
-            <img
-              src="http://2.bp.blogspot.com/-Hc_WroB0OB8/VqI6A5hmDMI/AAAAAAAAIiI/etP_Y8dYkLA/s1600/denahsituasi.jpg"
-              alt="Denah Mess"
-              className="w-full max-h-60 object-cover rounded-2xl"
-            />
+            {locationData.loading ? (
+              <MapCardShimmer />
+            ) : (
+              <MapCard
+                picture={locationData.data?.map!}
+                name={locationData.data?.name!}
+                onClick={() => mapOnClick()}
+              />
+            )}
           </div>
           <div>
             <p className="text-lg text-onBackground font-semibold mb-2">
@@ -127,3 +132,4 @@ function LocationPage(props: {
 }
 
 export { LocationPage };
+

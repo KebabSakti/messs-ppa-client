@@ -1,55 +1,70 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { LocalRoute } from "../../common/config/local_route";
+import { BookingModel } from "../../domain/entity/booking_model";
+import { StateModel } from "../../domain/entity/state_model";
+import { BookingInteractor } from "../../domain/interactor/booking_interactor";
+import { BookingCard, BookingCardShimmer } from "../component/BookingCard";
 
-function StatusPage() {
+function StatusPage(props: { bookingInteractor: BookingInteractor }) {
+  const navigate = useNavigate();
+
+  const [bookingData, setBookingData] = useState<StateModel<BookingModel[]>>({
+    loading: true,
+    data: [],
+  });
+
+  async function getBookingData() {
+    try {
+      const results = await props.bookingInteractor.collections();
+
+      setBookingData({
+        loading: false,
+        data: results,
+      });
+    } catch (error: any) {
+      setBookingData({
+        loading: false,
+        error: error.message,
+      });
+
+      toast.error(error.message, {
+        toastId: 1,
+      });
+    }
+  }
+
+  function bookingOnClick(id: string) {
+    navigate(`${LocalRoute.book}/${id}`);
+  }
+
+  async function init() {
+    getBookingData();
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <>
-      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4">
+      <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 z-10">
         <p className="text-onBackground text-xl font-semibold mx-auto">
           Status
         </p>
       </div>
       <div className="h-full overflow-auto">
         <div className="mx-4 my-16 space-y-4">
-          {[...Array(10)].map((x, i) => (
-            <Link
-              key={i}
-              to={`${LocalRoute.book}/1`}
-              className="rounded-lg bg-surface p-3 flex flex-col space-y-2"
-            >
-              <div className="flex items-center">
-                <p className="text-onBackground grow text-sm">Mess</p>
-                <p className="text-onBackground text-sm font-semibold">Asoka</p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-onBackground grow text-sm">Kamar</p>
-                <p className="text-onBackground text-sm font-semibold">001</p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-onBackground grow text-sm">Check-In</p>
-                <p className="text-onBackground text-xs font-semibold">
-                  12 Des 23 / 6:00 PM
-                </p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-onBackground grow text-sm">Check-Out</p>
-                <p className="text-onBackground text-sm font-semibold">-</p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-onBackground grow text-sm">Catatan</p>
-                <p className="text-onBackground text-sm font-semibold">
-                  Over Shift
-                </p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-onBackground grow text-sm">Status</p>
-                <p className="text-green-500 text-xs font-bold border border-green-500 rounded-full px-2 py-1">
-                  Check-In
-                </p>
-              </div>
-            </Link>
-          ))}
+          {bookingData.loading
+            ? [...Array(5)].map((_, i) => <BookingCardShimmer key={i} />)
+            : bookingData.data?.map((e) => (
+                <BookingCard
+                  key={e.id}
+                  model={e}
+                  onClick={() => bookingOnClick(e.id!)}
+                />
+              ))}
         </div>
       </div>
     </>
@@ -57,3 +72,4 @@ function StatusPage() {
 }
 
 export { StatusPage };
+
