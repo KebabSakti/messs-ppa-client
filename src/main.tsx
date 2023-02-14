@@ -6,6 +6,7 @@ import { BookingLocal } from "./adapter/repository/booking/booking_local";
 import { LocationLocal } from "./adapter/repository/location/location_local";
 import { MessLocal } from "./adapter/repository/mess/mess_local";
 import { RoomLocal } from "./adapter/repository/room/room_local";
+import { VoucherLocal } from "./adapter/repository/voucher/voucher_local";
 import { AuthMock } from "./adapter/service/auth/auth_mock";
 import { LocalRoute } from "./common/config/local_route";
 import { AppInteractor } from "./domain/interactor/app_interactor";
@@ -14,6 +15,7 @@ import { BookingInteractor } from "./domain/interactor/booking_interactor";
 import { LocationInteractor } from "./domain/interactor/location_interactor";
 import { MessInteractor } from "./domain/interactor/mess_interactor";
 import { RoomInteractor } from "./domain/interactor/room_interactor";
+import { VoucherInteractor } from "./domain/interactor/voucher_interactor";
 import "./index.css";
 import { AppPage } from "./view/page/AppPage";
 import { BookingPage } from "./view/page/BookingPage";
@@ -33,6 +35,7 @@ const messRepository = new MessLocal();
 const roomRepository = new RoomLocal();
 const locationRepository = new LocationLocal();
 const bookingRepository = new BookingLocal();
+const voucherRepository = new VoucherLocal();
 
 const appInteractor = new AppInteractor();
 const authInteractor = new AuthInteractor(authService, appInteractor);
@@ -40,6 +43,7 @@ const messIntractor = new MessInteractor(messRepository);
 const roomInteractor = new RoomInteractor(roomRepository);
 const locationInteractor = new LocationInteractor(locationRepository);
 const bookingInteractor = new BookingInteractor(bookingRepository);
+const voucherInteractor = new VoucherInteractor(voucherRepository);
 
 const authPageDependencies = {
   authInteractor: authInteractor,
@@ -69,6 +73,10 @@ const bookingPageDependencies = {
   bookingInteractor: bookingInteractor,
 };
 
+const voucherPageDependencies = {
+  voucherInteractor: voucherInteractor,
+};
+
 const router = createBrowserRouter([
   {
     path: LocalRoute.root,
@@ -92,7 +100,7 @@ const router = createBrowserRouter([
           },
           {
             path: LocalRoute.voucher,
-            element: <VoucherPage />,
+            element: <VoucherPage {...voucherPageDependencies} />,
           },
           {
             path: LocalRoute.user,

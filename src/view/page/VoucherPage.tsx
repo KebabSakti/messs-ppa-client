@@ -1,8 +1,48 @@
-import { Link } from "react-router-dom";
-import food from "../../assets/tteok.svg";
-import { LocalRoute } from "../../common/config/local_route";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { StateModel } from "../../domain/entity/state_model";
+import { VoucherModel } from "../../domain/entity/voucher_model";
+import { VoucherInteractor } from "../../domain/interactor/voucher_interactor";
+import { VoucherCard, VoucherCardShimmer } from "../component/VoucherCard";
 
-function VoucherPage() {
+function VoucherPage(props: { voucherInteractor: VoucherInteractor }) {
+  const [voucherData, setVoucherData] = useState<StateModel<VoucherModel[]>>({
+    loading: true,
+    data: [],
+  });
+
+  async function getVoucherData() {
+    try {
+      const results = await props.voucherInteractor.collections();
+
+      setVoucherData({
+        loading: false,
+        data: results,
+      });
+    } catch (error: any) {
+      setVoucherData({
+        loading: false,
+        error: error.message,
+      });
+
+      toast.error(error.message, {
+        toastId: 1,
+      });
+    }
+  }
+
+  function voucherOnClick(id: string) {
+    //
+  }
+
+  async function init() {
+    getVoucherData();
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <>
       <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 z-10">
@@ -12,32 +52,11 @@ function VoucherPage() {
       </div>
       <div className="h-full overflow-auto">
         <div className="mx-4 my-16 space-y-4">
-          {[...Array(10)].map((x, i) => (
-            <Link
-              key={i}
-              to={`${LocalRoute.vcs}/1`}
-              className="rounded-lg bg-surface p-3 flex flex-col space-y-3"
-            >
-              <div className="flex space-x-4 items-center">
-                <img src={food} className="w-16" />
-                <div className="grow">
-                  <p className="text-onBackground font-semibold">
-                    Voucher Makan
-                  </p>
-                  <p className="text-onBackground text-xs">
-                    Tunjukkan voucher ke pihak resto untuk mendapatkan 1 kali
-                    makan gratis
-                  </p>
-                </div>
-                <p className="text-green-500 text-xs font-bold border border-green-500 rounded-full px-2 py-1">
-                  AKTIF
-                </p>
-              </div>
-              <p className="text-onSurfaceDarker text-xs text-right">
-                Expired 13 Des 23
-              </p>
-            </Link>
-          ))}
+          {voucherData.loading
+            ? [...Array(5)].map((_, i) => <VoucherCardShimmer key={i} />)
+            : voucherData.data?.map((e) => (
+                <VoucherCard key={e.id} model={e} onClick={() => {}} />
+              ))}
         </div>
       </div>
     </>
