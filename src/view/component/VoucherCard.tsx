@@ -1,5 +1,6 @@
-import { VoucherModel } from "../../domain/entity/voucher_model";
 import food from "../../assets/tteok.svg";
+import { VoucherModel } from "../../domain/entity/voucher_model";
+import { StatusCard } from "./StatusCard";
 
 function VoucherCard({
   model,
@@ -10,7 +11,7 @@ function VoucherCard({
 }) {
   return (
     <div
-      className="rounded-lg bg-surface p-3 flex flex-col space-y-3"
+      className="rounded-lg bg-surface p-3 flex flex-col space-y-3 cursor-pointer"
       onClick={() => onClick()}
     >
       <div className="flex space-x-4 items-center">
@@ -22,15 +23,7 @@ function VoucherCard({
             gratis
           </p>
         </div>
-        {model.expired ? (
-          <p className="text-red-500 text-xs font-bold border border-red-500 rounded-full px-2 py-1">
-            EXPIRED
-          </p>
-        ) : (
-          <p className="text-green-500 text-xs font-bold border border-green-500 rounded-full px-2 py-1">
-            AKTIF
-          </p>
-        )}
+        <StatusCard positive="AKTIF" negative="EXPIRED" status={model.used! == false} />
       </div>
       <p className="text-onSurfaceDarker text-xs text-right">
         Expired 13 Des 23

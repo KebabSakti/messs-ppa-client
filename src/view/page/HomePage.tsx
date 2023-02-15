@@ -31,15 +31,9 @@ function HomePage(props: {
     try {
       const results = await props.messInteractor.collections();
 
-      setMessData({
-        loading: false,
-        data: results,
-      });
+      setMessData({ ...messData, loading: false, data: results });
     } catch (error: any) {
-      setMessData({
-        loading: false,
-        error: error.message,
-      });
+      setMessData({ ...messData, loading: false, error: error.message });
 
       toast.error(error.message, {
         toastId: 1,
@@ -51,12 +45,10 @@ function HomePage(props: {
     try {
       const results = await props.roomInteractor.collections();
 
-      setRoomData({
-        loading: false,
-        data: results,
-      });
+      setRoomData({ ...roomData, loading: false, data: results });
     } catch (error: any) {
       setRoomData({
+        ...roomData,
         loading: false,
         error: error.message,
       });

@@ -1,5 +1,6 @@
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { LocationModel } from "../../domain/entity/location_model";
+import { StatusCard } from "./StatusCard";
 
 function LocationCard({
   model,
@@ -15,15 +16,11 @@ function LocationCard({
     >
       <SparklesIcon className="w-6 text-secondary" />
       <p className="text-onBackground font-semibold flex-1">{model.name}</p>
-      {model.available ? (
-        <p className="text-xs font-bold border border-green-500 text-green-500 rounded-full px-2 py-1">
-          TERSEDIA
-        </p>
-      ) : (
-        <p className="text-xs font-bold border border-red-500 text-red-500 rounded-full px-2 py-1">
-          PENUH
-        </p>
-      )}
+      <StatusCard
+        positive="TERSEDIA"
+        negative="PENUH"
+        status={model.available!}
+      />
     </div>
   );
 }

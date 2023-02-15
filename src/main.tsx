@@ -5,9 +5,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { BookingLocal } from "./adapter/repository/booking/booking_local";
 import { LocationLocal } from "./adapter/repository/location/location_local";
 import { MessLocal } from "./adapter/repository/mess/mess_local";
+import { MessRemote } from "./adapter/repository/mess/mess_remote";
 import { RoomLocal } from "./adapter/repository/room/room_local";
 import { VoucherLocal } from "./adapter/repository/voucher/voucher_local";
 import { AuthMock } from "./adapter/service/auth/auth_mock";
+import { AxiosClient } from "./adapter/service/http/axios_client";
 import { LocalRoute } from "./common/config/local_route";
 import { AppInteractor } from "./domain/interactor/app_interactor";
 import { AuthInteractor } from "./domain/interactor/auth_interactor";
@@ -30,14 +32,14 @@ import { UserPage } from "./view/page/UserPage";
 import { VcsPage } from "./view/page/VcsPage";
 import { VoucherPage } from "./view/page/VoucherPage";
 
+const appInteractor = new AppInteractor();
+const http = new AxiosClient(appInteractor);
 const authService = new AuthMock();
 const messRepository = new MessLocal();
 const roomRepository = new RoomLocal();
 const locationRepository = new LocationLocal();
 const bookingRepository = new BookingLocal();
 const voucherRepository = new VoucherLocal();
-
-const appInteractor = new AppInteractor();
 const authInteractor = new AuthInteractor(authService, appInteractor);
 const messIntractor = new MessInteractor(messRepository);
 const roomInteractor = new RoomInteractor(roomRepository);

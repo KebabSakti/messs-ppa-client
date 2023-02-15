@@ -43,15 +43,9 @@ function MessPage(props: {
     try {
       const results = await props.messInteractor.single({ id: id });
 
-      setMessData({
-        loading: false,
-        data: results,
-      });
+      setMessData({ ...messData, loading: false, data: results });
     } catch (error: any) {
-      setMessData({
-        loading: false,
-        error: error.message,
-      });
+      setMessData({ ...messData, loading: false, error: error.message });
 
       toast.error(error.message, {
         toastId: 1,
@@ -177,3 +171,4 @@ function MessPage(props: {
 }
 
 export { MessPage };
+

@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { LocalRoute } from "../../common/config/local_route";
 import { StateModel } from "../../domain/entity/state_model";
 import { VoucherModel } from "../../domain/entity/voucher_model";
 import { VoucherInteractor } from "../../domain/interactor/voucher_interactor";
 import { VoucherCard, VoucherCardShimmer } from "../component/VoucherCard";
 
 function VoucherPage(props: { voucherInteractor: VoucherInteractor }) {
+  const navigate = useNavigate();
+
   const [voucherData, setVoucherData] = useState<StateModel<VoucherModel[]>>({
     loading: true,
     data: [],
@@ -32,7 +36,7 @@ function VoucherPage(props: { voucherInteractor: VoucherInteractor }) {
   }
 
   function voucherOnClick(id: string) {
-    //
+    navigate(`${LocalRoute.vcs}/${id}`);
   }
 
   async function init() {
@@ -55,7 +59,11 @@ function VoucherPage(props: { voucherInteractor: VoucherInteractor }) {
           {voucherData.loading
             ? [...Array(5)].map((_, i) => <VoucherCardShimmer key={i} />)
             : voucherData.data?.map((e) => (
-                <VoucherCard key={e.id} model={e} onClick={() => {}} />
+                <VoucherCard
+                  key={e.id}
+                  model={e}
+                  onClick={() => voucherOnClick(e.id!)}
+                />
               ))}
         </div>
       </div>

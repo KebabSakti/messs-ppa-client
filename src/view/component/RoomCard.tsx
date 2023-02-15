@@ -1,4 +1,5 @@
 import { RoomModel } from "../../domain/entity/room_model";
+import { StatusCard } from "./StatusCard";
 
 function RoomCard({
   model,
@@ -13,11 +14,17 @@ function RoomCard({
         className="flex flex-col rounded-2xl bg-surface h-60 cursor-pointer"
         onClick={() => onClick()}
       >
-        <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl">
+        <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl relative">
           <img
             src={model.picture}
             alt={model.name}
-            className="object-cover h-full rounded-tl-2xl rounded-tr-2xl"
+            className="absolute object-cover h-full rounded-tl-2xl rounded-tr-2xl"
+          />
+          <StatusCard
+            className="absolute bottom-2 right-2"
+            positive="TERSEDIA"
+            negative="PENUH"
+            status={model.available!}
           />
         </div>
         <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center">
@@ -41,4 +48,3 @@ function RoomCardShimmer() {
 }
 
 export { RoomCard, RoomCardShimmer };
-

@@ -1,4 +1,5 @@
 import { BookingModel } from "../../domain/entity/booking_model";
+import { StatusCard } from "./StatusCard";
 
 function BookingCard({
   model,
@@ -40,7 +41,7 @@ function BookingCard({
       </div>
       <div className="flex items-center">
         <p className="text-onBackground grow text-sm">Check-Out</p>
-        <p className="text-onBackground text-sm font-semibold">
+        <p className="text-onBackground text-xs font-semibold">
           {model.checkoutDate}
         </p>
       </div>
@@ -50,22 +51,20 @@ function BookingCard({
       </div>
       <div className="flex items-center">
         <p className="text-onBackground grow text-sm">Status</p>
-        {model.checkin ? (
-          <p className="text-green-500 text-xs font-bold border border-green-500 rounded-full px-2 py-1">
-            Check-In
-          </p>
-        ) : (
-          <p className="text-red-500 text-xs font-bold border border-red-500 rounded-full px-2 py-1">
-            Check-Out
-          </p>
-        )}
+        <StatusCard
+          positive="Check-In"
+          negative="Check-Out"
+          status={model.checkin!}
+        />
       </div>
     </div>
   );
 }
 
 function BookingCardShimmer() {
-  return <div className="h-60 w-full rounded-lg bg-onSurfaceDarker animate-pulse" />
+  return (
+    <div className="h-60 w-full rounded-lg bg-onSurfaceDarker animate-pulse" />
+  );
 }
 
 export { BookingCard, BookingCardShimmer };
