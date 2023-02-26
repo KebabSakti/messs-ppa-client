@@ -6,6 +6,7 @@ import { BookingModel } from "../../domain/entity/booking_model";
 import { StateModel } from "../../domain/entity/state_model";
 import { BookingInteractor } from "../../domain/interactor/booking_interactor";
 import { BookingCard, BookingCardShimmer } from "../component/BookingCard";
+import { EmptyCard } from "../component/EmptyCard";
 
 function StatusPage(props: { bookingInteractor: BookingInteractor }) {
   const navigate = useNavigate();
@@ -51,20 +52,24 @@ function StatusPage(props: { bookingInteractor: BookingInteractor }) {
     <>
       <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 z-10">
         <p className="text-onBackground text-xl font-semibold mx-auto">
-          Status
+          Booking
         </p>
       </div>
-      <div className="h-full overflow-auto">
-        <div className="mx-4 my-16 space-y-4">
-          {bookingData.loading
-            ? [...Array(5)].map((_, i) => <BookingCardShimmer key={i} />)
-            : bookingData.data?.map((e) => (
-                <BookingCard
-                  key={e.id}
-                  model={e}
-                  onClick={() => bookingOnClick(e.id!)}
-                />
-              ))}
+      <div className="overflow-auto h-full">
+        <div className="mx-4 my-16 space-y-4 h-4/5">
+          {bookingData.loading ? (
+            [...Array(5)].map((_, i) => <BookingCardShimmer key={i} />)
+          ) : bookingData.data?.length == 0 ? (
+            <EmptyCard message="Data booking tidak ditemukan" />
+          ) : (
+            bookingData.data?.map((e) => (
+              <BookingCard
+                key={e.id}
+                model={e}
+                onClick={() => bookingOnClick(e.id!)}
+              />
+            ))
+          )}
         </div>
       </div>
     </>
@@ -72,4 +77,3 @@ function StatusPage(props: { bookingInteractor: BookingInteractor }) {
 }
 
 export { StatusPage };
-

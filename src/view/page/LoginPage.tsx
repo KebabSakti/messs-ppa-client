@@ -1,8 +1,10 @@
+import Joi from "joi";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import { LocalRoute } from "../../common/config/local_route";
+import { BadRequest } from "../../common/error/bad_request";
 import { AppModel } from "../../domain/entity/app_model";
 import { StateModel } from "../../domain/entity/state_model";
 import { AuthInteractor } from "../../domain/interactor/auth_interactor";
@@ -20,6 +22,17 @@ function LoginPage({ authInteractor }: { authInteractor: AuthInteractor }) {
       setResults({
         loading: true,
       });
+
+      const scheme = Joi.object({
+        username: Joi.string().required(),
+        password: Joi.string().required(),
+      });
+
+      const { error } = scheme.validate(inputs);
+
+      if (error != undefined) {
+        throw new BadRequest("NRP atau password tidak boleh kosong");
+      }
 
       await authInteractor.login({
         username: inputs.username,
@@ -52,16 +65,6 @@ function LoginPage({ authInteractor }: { authInteractor: AuthInteractor }) {
   }
 
   function loginOnPressed(): void {
-    if (inputs.username.length == 0 || inputs.password.length == 0) {
-      clearInputs();
-
-      toast.warn("NRP atau password tidak boleh kosong", {
-        toastId: 1,
-      });
-
-      return;
-    }
-
     authLogin();
   }
 

@@ -20,12 +20,8 @@ function UserPage({ authInteractor }: { authInteractor: AuthInteractor }) {
       <div className="overflow-auto h-screen flex flex-col">
         <div className="bg-surface rounded-lg p-3 flex flex-col items-center justify-center flex-1">
           <UserCircleIcon className="w-20 text-onBackground mb-4" />
-          <p className="text-onBackground text-lg font-semibold">Julian Aryo</p>
-          <p className="text-onBackground text-lg font-semibold mb-6">
-            0012910190
-          </p>
           <ButtonComponent
-            className="bg-primary px-4 py-1 rounded-full text-onPrimary font-bold"
+            className="bg-red-500 px-4 py-1 rounded-full text-onPrimary font-bold"
             text="LOGOUT"
             loading={loading}
             onClick={logoutButtonOnPressed}

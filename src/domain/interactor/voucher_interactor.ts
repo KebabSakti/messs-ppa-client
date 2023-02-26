@@ -23,7 +23,7 @@ class VoucherInteractor {
   }
 
   async update(id: string, option: { [key: string]: any }): Promise<void> {
-    await this.voucherRepository.update(option);
+    await this.voucherRepository.update(id, option);
   }
 }
 

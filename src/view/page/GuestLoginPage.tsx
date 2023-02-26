@@ -1,8 +1,10 @@
+import Joi from "joi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import { LocalRoute } from "../../common/config/local_route";
+import { BadRequest } from "../../common/error/bad_request";
 import { AppModel } from "../../domain/entity/app_model";
 import { StateModel } from "../../domain/entity/state_model";
 import { AuthInteractor } from "../../domain/interactor/auth_interactor";
@@ -17,7 +19,7 @@ function GuestLoginPage({
 
   const [inputs, setInputs] = useState({
     name: "",
-    username: "",
+    phone: "",
   });
 
   const [results, setResults] = useState<StateModel<AppModel>>({
@@ -30,9 +32,20 @@ function GuestLoginPage({
         loading: true,
       });
 
+      const scheme = Joi.object({
+        name: Joi.string().required(),
+        phone: Joi.string().required(),
+      });
+
+      const { error } = scheme.validate(inputs);
+
+      if (error != undefined) {
+        throw new BadRequest("Nama atau no hp tidak boleh kosong");
+      }
+
       await authInteractor.login({
         name: inputs.name,
-        username: inputs.username,
+        phone: inputs.phone,
         employee: false,
       });
 
@@ -52,7 +65,7 @@ function GuestLoginPage({
   }
 
   function clearInputs() {
-    setInputs({ name: "", username: "" });
+    setInputs({ name: "", phone: "" });
   }
 
   function fieldOnChange(event: any) {
@@ -61,16 +74,6 @@ function GuestLoginPage({
   }
 
   function loginOnPressed(): void {
-    if (inputs.username.length == 0 || inputs.name.length == 0) {
-      clearInputs();
-
-      toast.warn("Nama dan no hp tidak boleh kosong", {
-        toastId: 1,
-      });
-
-      return;
-    }
-
     authLogin();
   }
 
@@ -97,12 +100,12 @@ items-center px-6"
             required
           />
           <input
-            name="username"
+            name="phone"
             type="text"
             placeholder="Nomor Hp"
             className="py-3 px-5 rounded-xl w-full bg-surfaceDarker text-onSurface focus:outline-none"
             onChange={fieldOnChange}
-            value={inputs.username}
+            value={inputs.phone}
             required
           />
           <ButtonComponent

@@ -13,7 +13,7 @@ class MessRemote implements MessRepository {
   async single(
     option?: { [key: string]: any } | undefined
   ): Promise<MessModel> {
-    const request = await this.http.get(RemoteApi.mess, option);
+    const request = await this.http.get(`${RemoteApi.mess}/${option!.id}`);
 
     const results: MessModel = {
       id: request.data?.id,

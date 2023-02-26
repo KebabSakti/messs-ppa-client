@@ -1,10 +1,10 @@
 interface LocationModel {
   id?: string;
-  messId?: string;
-  map?: string;
-  mess?: string;
+  innId?: string;
+  inn?: string;
   name?: string;
-  available?: boolean;
+  map?: string;
+  full?: boolean;
 }
 
 export type { LocationModel };

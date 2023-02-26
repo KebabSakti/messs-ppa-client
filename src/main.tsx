@@ -2,13 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { BookingLocal } from "./adapter/repository/booking/booking_local";
-import { LocationLocal } from "./adapter/repository/location/location_local";
-import { MessLocal } from "./adapter/repository/mess/mess_local";
+import { BookingRemote } from "./adapter/repository/booking/booking_remote";
+import { LocationRemote } from "./adapter/repository/location/location_remote";
 import { MessRemote } from "./adapter/repository/mess/mess_remote";
-import { RoomLocal } from "./adapter/repository/room/room_local";
-import { VoucherLocal } from "./adapter/repository/voucher/voucher_local";
-import { AuthMock } from "./adapter/service/auth/auth_mock";
+import { RoomRemote } from "./adapter/repository/room/room_remote";
+import { VoucherRemote } from "./adapter/repository/voucher/voucher_remote";
+import { AuthApi } from "./adapter/service/auth/auth_api";
 import { AxiosClient } from "./adapter/service/http/axios_client";
 import { LocalRoute } from "./common/config/local_route";
 import { AppInteractor } from "./domain/interactor/app_interactor";
@@ -34,18 +33,23 @@ import { VoucherPage } from "./view/page/VoucherPage";
 
 const appInteractor = new AppInteractor();
 const http = new AxiosClient(appInteractor);
-const authService = new AuthMock();
-const messRepository = new MessLocal();
-const roomRepository = new RoomLocal();
-const locationRepository = new LocationLocal();
-const bookingRepository = new BookingLocal();
-const voucherRepository = new VoucherLocal();
+const authService = new AuthApi(http);
+const messRepository = new MessRemote(http);
+const roomRepository = new RoomRemote(http);
+const locationRepository = new LocationRemote(http);
+const bookingRepository = new BookingRemote(http);
+const voucherRepository = new VoucherRemote(http);
+
 const authInteractor = new AuthInteractor(authService, appInteractor);
 const messIntractor = new MessInteractor(messRepository);
 const roomInteractor = new RoomInteractor(roomRepository);
 const locationInteractor = new LocationInteractor(locationRepository);
 const bookingInteractor = new BookingInteractor(bookingRepository);
 const voucherInteractor = new VoucherInteractor(voucherRepository);
+
+const appPageDepencies = {
+  appInteractor: appInteractor,
+};
 
 const authPageDependencies = {
   authInteractor: authInteractor,
@@ -69,10 +73,13 @@ const locationPageDependencies = {
 
 const roomPageDependencies = {
   roomInteractor: roomInteractor,
+  bookingInteractor: bookingInteractor,
+  appInteractor: appInteractor,
 };
 
 const bookingPageDependencies = {
   bookingInteractor: bookingInteractor,
+  appInteractor: appInteractor,
 };
 
 const voucherPageDependencies = {
@@ -90,7 +97,7 @@ const router = createBrowserRouter([
       },
       {
         path: LocalRoute.app,
-        element: <AppPage />,
+        element: <AppPage {...appPageDepencies} />,
         children: [
           {
             path: LocalRoute.home,
@@ -102,7 +109,7 @@ const router = createBrowserRouter([
           },
           {
             path: LocalRoute.voucher,
-            element: <VoucherPage {...voucherPageDependencies} />,
+            element: <VcsPage {...voucherPageDependencies} />,
           },
           {
             path: LocalRoute.user,
@@ -128,7 +135,7 @@ const router = createBrowserRouter([
       },
       {
         path: `${LocalRoute.vcs}/:id`,
-        element: <VcsPage />,
+        element: <VcsPage {...voucherPageDependencies} />,
       },
     ],
   },

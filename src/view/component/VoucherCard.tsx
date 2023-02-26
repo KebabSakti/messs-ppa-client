@@ -1,4 +1,6 @@
+import { DateTime } from "luxon";
 import food from "../../assets/tteok.svg";
+import { LuxonDatetime } from "../../common/helper/luxon_datetime";
 import { VoucherModel } from "../../domain/entity/voucher_model";
 import { StatusCard } from "./StatusCard";
 
@@ -23,10 +25,19 @@ function VoucherCard({
             gratis
           </p>
         </div>
-        <StatusCard positive="AKTIF" negative="EXPIRED" status={model.used! == false} />
+        {LuxonDatetime.startGTEnd(DateTime.now().toISO(), model.expired!) ==
+          false && model.used == false ? (
+          <StatusCard
+            positive="AKTIF"
+            negative="EXPIRED"
+            status={model.used! == false}
+          />
+        ) : (
+          <StatusCard positive="AKTIF" negative="EXPIRED" status={false} />
+        )}
       </div>
-      <p className="text-onSurfaceDarker text-xs text-right">
-        Expired 13 Des 23
+      <p className="text-red-500 text-xs font-semibold text-center">
+        {LuxonDatetime.toHuman(model.expired!)}
       </p>
     </div>
   );

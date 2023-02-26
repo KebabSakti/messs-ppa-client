@@ -1,3 +1,4 @@
+import { RemoteApi } from "../../common/config/remote_api";
 import { RoomModel } from "../../domain/entity/room_model";
 import { StatusCard } from "./StatusCard";
 
@@ -16,18 +17,18 @@ function RoomCard({
       >
         <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl relative">
           <img
-            src={model.picture}
+            src={RemoteApi.url + model.picture}
             alt={model.name}
-            className="absolute object-cover h-full rounded-tl-2xl rounded-tr-2xl"
+            className="absolute object-cover h-full w-full rounded-tl-2xl rounded-tr-2xl"
           />
           <StatusCard
             className="absolute bottom-2 right-2"
             positive="TERSEDIA"
             negative="PENUH"
-            status={model.available!}
+            status={!model.full!}
           />
         </div>
-        <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center">
+        <div className="basis-1/3 rounded-bl-2xl rounded-br-2xl flex flex-col items-center justify-center text-center p-2">
           <p className="text-onBackground text-sm font-semibold">
             {model.mess}
           </p>

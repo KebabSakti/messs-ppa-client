@@ -1,3 +1,5 @@
+import { RemoteApi } from "../../common/config/remote_api";
+
 function MapCard({
   picture,
   name,
@@ -9,7 +11,7 @@ function MapCard({
 }) {
   return (
     <img
-      src={picture}
+      src={RemoteApi.url + picture}
       alt={name}
       className="w-full h-60 object-cover bg-onSurfaceDarker rounded-2xl cursor-pointer"
       onClick={() => onClick()}

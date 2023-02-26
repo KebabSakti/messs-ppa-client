@@ -25,7 +25,10 @@ class BookingInteractor {
   async store(option: { [key: string]: any }): Promise<void> {
     await this.bookingRepository.store(option);
   }
+
+  async update(id: string, option: { [key: string]: any }): Promise<void> {
+    await this.bookingRepository.update(id, option);
+  }
 }
 
 export { BookingInteractor };
-

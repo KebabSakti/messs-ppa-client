@@ -1,6 +1,15 @@
 class RemoteApi {
-  static base = "http://localhost:1001";
-  static mess = "/mess";
+  static url = "http://192.168.3.126:1001/";
+  static base = this.url + "rest/";
+
+  static authGuest = "auth/guest";
+  static authEmployee = "auth/employee";
+
+  static mess = "public/inns";
+  static rooms = "public/rooms";
+  static locations = "public/locations";
+  static bookings = "public/bookings";
+  static vouchers = "public/vouchers";
 }
 
 export { RemoteApi };

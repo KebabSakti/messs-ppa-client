@@ -24,3 +24,4 @@ class RoomInteractor {
 }
 
 export { RoomInteractor };
+

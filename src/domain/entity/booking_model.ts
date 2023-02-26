@@ -1,14 +1,21 @@
 interface BookingModel {
   id?: string;
+  roomId?: string;
+  bookingId?: string;
+  checkin?: string;
+  checkout?: string;
+  name?: string;
+  phone?: string;
+  nrp?: string;
   mess?: string;
-  room?: string;
-  picture?: string;
   location?: string;
-  checkinDate?: string;
-  checkoutDate?: string;
-  description?: string;
+  room?: string;
+  checkinNote?: string;
+  checkoutNote?: string;
+  extra?: string;
   note?: string;
-  checkin?: boolean;
+  guest?: boolean;
+  picture?: string;
 }
 
 export type { BookingModel };

@@ -1,3 +1,4 @@
+import { LuxonDatetime } from "../../common/helper/luxon_datetime";
 import { BookingModel } from "../../domain/entity/booking_model";
 import { StatusCard } from "./StatusCard";
 
@@ -28,33 +29,41 @@ function BookingCard({
         <p className="text-onBackground text-sm font-semibold">{model.room}</p>
       </div>
       <div className="flex items-center">
-        <p className="text-onBackground grow text-sm">Keterangan</p>
-        <p className="text-onBackground text-sm font-semibold">
-          {model.description}
-        </p>
-      </div>
-      <div className="flex items-center">
         <p className="text-onBackground grow text-sm">Check-In</p>
         <p className="text-onBackground text-xs font-semibold">
-          {model.checkinDate}
+          {LuxonDatetime.toHuman(model.checkin!)}
         </p>
       </div>
       <div className="flex items-center">
         <p className="text-onBackground grow text-sm">Check-Out</p>
         <p className="text-onBackground text-xs font-semibold">
-          {model.checkoutDate}
+          {model.checkout != null
+            ? LuxonDatetime.toHuman(model.checkout!)
+            : "-"}
         </p>
       </div>
       <div className="flex items-center">
-        <p className="text-onBackground grow text-sm">Catatan</p>
-        <p className="text-onBackground text-sm font-semibold">{model.note}</p>
+        <p className="text-onBackground grow text-sm">Check-In Note</p>
+        <p className="text-onBackground text-sm font-semibold">
+          {model.checkinNote}
+        </p>
+      </div>
+      <div className="flex items-center">
+        <p className="text-onBackground grow text-sm">Check-Out Note</p>
+        <p className="text-onBackground text-sm font-semibold">
+          {model.checkoutNote}
+        </p>
+      </div>
+      <div className="flex items-center">
+        <p className="text-onBackground grow text-sm">Keterangan</p>
+        <p className="text-onBackground text-sm font-semibold">{model.note ?? '-'}</p>
       </div>
       <div className="flex items-center">
         <p className="text-onBackground grow text-sm">Status</p>
         <StatusCard
           positive="Check-In"
           negative="Check-Out"
-          status={model.checkin!}
+          status={model.checkout == null}
         />
       </div>
     </div>

@@ -120,14 +120,15 @@ function MessPage(props: {
       <div className="bg-surfaceDarker h-screen">
         <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 items-center z-10">
           <BackButton />
-          <p className="text-onBackground text-xl font-semibold mx-auto">
-            {messData.loading ? "Loading.." : messData.data?.name}
+          <p className="text-onBackground text-lg text-center font-semibold mx-auto">
+            {/* {messData.loading ? "Loading.." : messData.data?.name} */}
+            Detail Mess
           </p>
         </div>
         <div className="h-full overflow-auto pt-16 pb-4 px-4 space-y-4">
           <div>
             <p className="text-lg text-onBackground font-semibold mb-2">
-              Denah Mess
+              Denah
             </p>
             {messData.loading ? (
               <MapCardShimmer />
@@ -171,4 +172,3 @@ function MessPage(props: {
 }
 
 export { MessPage };
-

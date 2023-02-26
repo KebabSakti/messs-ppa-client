@@ -16,11 +16,11 @@ function LocationCard({
     >
       <SparklesIcon className="w-6 text-secondary" />
       <p className="text-onBackground font-semibold flex-1">{model.name}</p>
-      <StatusCard
+      {/* <StatusCard
         positive="TERSEDIA"
         negative="PENUH"
-        status={model.available!}
-      />
+        status={model.full!}
+      /> */}
     </div>
   );
 }

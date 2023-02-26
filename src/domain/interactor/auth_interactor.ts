@@ -16,7 +16,13 @@ class AuthInteractor {
 
     if (results != null) {
       const savedConfig = this.appInteractor.config();
-      const config = { ...savedConfig, auth: results };
+      
+      const config = {
+        ...savedConfig,
+        auth: results,
+        employee: option.employee,
+      };
+
       this.appInteractor.saveConfig(config);
     }
   }

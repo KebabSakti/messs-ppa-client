@@ -88,16 +88,17 @@ function LocationPage(props: {
       <div className="bg-surfaceDarker h-screen">
         <div className="drop-shadow h-14 w-full bg-surface fixed top-0 flex items-center px-4 items-center z-10">
           <BackButton />
-          <p className="text-onBackground text-xl font-semibold mx-auto">
-            {locationData.loading
+          <p className="text-onBackground text-lg text-center font-semibold mx-auto">
+            {/* {locationData.loading
               ? "Loading.."
-              : `${locationData.data?.mess} - ${locationData.data?.name}`}
+              : `${locationData.data?.inn} - ${locationData.data?.name}`} */}
+              Detail Lokasi
           </p>
         </div>
         <div className="h-full overflow-auto pt-16 pb-4 px-4 space-y-4">
           <div>
             <p className="text-lg text-onBackground font-semibold mb-2">
-              Denah {locationData.loading ? "" : `${locationData.data?.name}`}
+              Denah
             </p>
             {locationData.loading ? (
               <MapCardShimmer />

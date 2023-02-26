@@ -101,7 +101,7 @@ function HomePage(props: {
         </div>
         <div className="mx-4">
           <p className="text-lg text-onBackground font-semibold mb-2">
-            Kamar Tersedia
+            Daftar Kamar
           </p>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-10 gap-4">
             {roomData.loading
