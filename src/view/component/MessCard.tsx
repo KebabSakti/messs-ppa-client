@@ -17,7 +17,7 @@ function MessCard({
       >
         <div className="basis-4/5 rounded-tl-2xl rounded-tr-2xl relative">
           <img
-            src={RemoteApi.url + model.picture}
+            src={RemoteApi.url + "static/" + model.picture}
             alt="mess"
             className="absolute object-cover h-full w-full rounded-tl-2xl rounded-tr-2xl"
           />

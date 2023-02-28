@@ -17,7 +17,7 @@ function RoomCard({
       >
         <div className="basis-2/3 rounded-tl-2xl rounded-tr-2xl relative">
           <img
-            src={RemoteApi.url + model.picture}
+            src={RemoteApi.url + "static/" + model.picture}
             alt={model.name}
             className="absolute object-cover h-full w-full rounded-tl-2xl rounded-tr-2xl"
           />
