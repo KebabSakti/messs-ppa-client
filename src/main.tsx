@@ -7,6 +7,7 @@ import { LocationRemote } from "./adapter/repository/location/location_remote";
 import { MessRemote } from "./adapter/repository/mess/mess_remote";
 import { RoomRemote } from "./adapter/repository/room/room_remote";
 import { VoucherRemote } from "./adapter/repository/voucher/voucher_remote";
+import { ConfigRemote } from "./adapter/repository/config/config_remote";
 import { AuthApi } from "./adapter/service/auth/auth_api";
 import { AxiosClient } from "./adapter/service/http/axios_client";
 import { LocalRoute } from "./common/config/local_route";
@@ -17,6 +18,7 @@ import { LocationInteractor } from "./domain/interactor/location_interactor";
 import { MessInteractor } from "./domain/interactor/mess_interactor";
 import { RoomInteractor } from "./domain/interactor/room_interactor";
 import { VoucherInteractor } from "./domain/interactor/voucher_interactor";
+import { ConfigInteractor } from "./domain/interactor/config_interactor";
 import "./index.css";
 import { AppPage } from "./view/page/AppPage";
 import { BookingPage } from "./view/page/BookingPage";
@@ -39,6 +41,7 @@ const roomRepository = new RoomRemote(http);
 const locationRepository = new LocationRemote(http);
 const bookingRepository = new BookingRemote(http);
 const voucherRepository = new VoucherRemote(http);
+const configRepository = new ConfigRemote(http);
 
 const authInteractor = new AuthInteractor(authService, appInteractor);
 const messIntractor = new MessInteractor(messRepository);
@@ -46,9 +49,11 @@ const roomInteractor = new RoomInteractor(roomRepository);
 const locationInteractor = new LocationInteractor(locationRepository);
 const bookingInteractor = new BookingInteractor(bookingRepository);
 const voucherInteractor = new VoucherInteractor(voucherRepository);
+const configInteractor = new ConfigInteractor(configRepository);
 
 const appPageDepencies = {
   appInteractor: appInteractor,
+  configInteractor: configInteractor,
 };
 
 const authPageDependencies = {
